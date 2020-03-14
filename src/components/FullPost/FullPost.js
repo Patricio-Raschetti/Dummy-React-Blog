@@ -16,8 +16,10 @@ class FullPost extends Component {
     };
 
     async componentDidUpdate() {
-        const response = await axios.get(`https://jsonplaceholder.typicode.com/posts/${this.props.id}`);
-        this.setState({ loadedPost: response.data });
+        if (this.props.id) {
+            const response = await axios.get(`https://jsonplaceholder.typicode.com/posts/${this.props.id}`);
+            this.setState({ loadedPost: response.data });
+        };
     };
 
     render() {
