@@ -8,11 +8,16 @@ class FullPost extends Component {
         loadedPost: null
     };
 
-    async componentDidUpdate(prevProps) {
-        if (this.props.id && (prevProps.id !== this.props.id)) {
-            const response = await axios.get(`https://jsonplaceholder.typicode.com/posts/${this.props.id}`);
-            this.setState({ loadedPost: response.data });
+    shouldComponentUpdate(nextProps) {
+        if (this.state.loadedPost && this.state.loadedPost.id === nextProps.id) {
+            return false;
         };
+        return true;
+    };
+
+    async componentDidUpdate() {
+        const response = await axios.get(`https://jsonplaceholder.typicode.com/posts/${this.props.id}`);
+        this.setState({ loadedPost: response.data });
     };
 
     render() {
