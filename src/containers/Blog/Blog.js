@@ -9,14 +9,19 @@ import './Blog.css';
 class Blog extends Component {
     state = {
         posts: [],
-        selectedPost: null
+        selectedPost: null,
+        error: false
     };
 
     async componentDidMount() {
-        const response = await axios.get('https://jsonplaceholder.typicode.com/posts/');
-        const posts = response.data.slice(0, 4);
-        const updatedPosts = posts.map(post => ({ ...post, author: 'Pato' }));
-        this.setState({ posts: updatedPosts });
+        try {
+            const response = await axios.get('https://jsonplaceholder.typicode.com/posts/');
+            const posts = response.data.slice(0, 4);
+            const updatedPosts = posts.map(post => ({ ...post, author: 'Pato' }));
+            this.setState({ posts: updatedPosts });
+        } catch (error) {
+            this.setState({ error: true });
+        };
     };
 
     selectPostHandler = id => {
@@ -24,14 +29,17 @@ class Blog extends Component {
     };
 
     render() {
-        const posts = this.state.posts.map(post => {
-            return <Post
-                key={post.id}
-                title={post.title}
-                author={post.author}
-                clicked={this.selectPostHandler.bind(this, post.id)}
-            />
-        })
+        let posts = <p style={{ textAlign: "center" }}>Couldn't fetch the post. Try again later!</p>
+        if (!this.state.error) {
+            posts = this.state.posts.map(post => {
+                return <Post
+                    key={post.id}
+                    title={post.title}
+                    author={post.author}
+                    clicked={this.selectPostHandler.bind(this, post.id)}
+                />
+            });
+        };
 
         return (
             <div>
