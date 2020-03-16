@@ -10,13 +10,13 @@ class FullPost extends Component {
 
     async componentDidUpdate(prevProps) {
         if (this.props.id && (!this.state.loadedPost || prevProps.id !== this.props.id)) {
-            const response = await axios.get(`https://jsonplaceholder.typicode.com/posts/${this.props.id}`);
+            const response = await axios.get(`/posts/${this.props.id}`);
             this.setState({ loadedPost: response.data });
         };
     };
 
     deletePostHandler = () => {
-        axios.delete(`https://jsonplaceholder.typicode.com/posts/${this.props.id}`)
+        axios.delete(`/posts/${this.props.id}`)
             .then(response => console.log(response));
     };
 
