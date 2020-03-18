@@ -13,7 +13,6 @@ class NewPost extends Component {
     postDataHandler = async () => {
         const post = { ...this.state };
         const response = await axios.post('/posts/', post);
-        console.log(response);
     };
 
     render() {
