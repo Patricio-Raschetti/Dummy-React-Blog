@@ -7,7 +7,6 @@ import axios from 'axios';
 axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com';
 axios.defaults.headers.common['Authorization'] = 'My Auth TOKEN';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
-axios.defaults.headers.common['MyHeader'] = 'FROM AXIOS';
 
 axios.interceptors.request.use(request => {
     console.log(request);
