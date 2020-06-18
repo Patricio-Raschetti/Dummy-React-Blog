@@ -1,26 +1,34 @@
 import React, { Component } from 'react';
-import Post from '../../components/Post/Post';
 import axios from '../../axios';    // Using 'axios' identifier instead of 'axiosBlogInstance' or whatever more specific for not changing the code.
 import './Posts.css';
 
+import Post from '../../components/Post/Post';
+
 class Posts extends Component {
     state = {
-        posts: []
-        // selectedPost: null,
+        posts: [],
+        selectedPost: null,
         // error: false
     };
 
+    _isMounted;
+
     async componentDidMount() {
+        this._isMounted = true;
         try {
-            const response = await axios.get('/posts/');
+            const response = this._isMounted ? await axios.get('/posts/') : null;
             const posts = response.data.slice(0, 4);
             const updatedPosts = posts.map(post => ({ ...post, author: 'Pato' }));
-            this.setState({ posts: updatedPosts });
+            if (this._isMounted) this.setState({ posts: updatedPosts });
         } catch (error) {
             console.log(error);
             // this.setState({ error: true });
         };
     };
+
+    componentWillUnmount() {
+        this._isMounted = false;
+    }
 
     selectPostHandler = id => {
         this.setState({ selectedPost: id });
