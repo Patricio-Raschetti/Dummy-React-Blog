@@ -27,17 +27,16 @@ class Posts extends Component {
     };
 
     render() {
-        let posts = <p style={{ textAlign: "center" }}>Couldn't fetch the post. Try again later!</p>
-        if (!this.state.error) {
-            posts = this.state.posts.map(post => {
-                return <Post
-                    key={post.id}
-                    title={post.title}
-                    author={post.author}
-                    clicked={this.selectPostHandler.bind(this, post.id)}
-                />
-            });
-        };
+        // let posts = <p style={{ textAlign: "center" }}>Couldn't fetch the post. Try again later!</p>
+        // if (!this.state.error) { posts = this.state.posts.map(...)} and remove the 'let' keyword.
+        let posts = this.state.posts.map(post => {
+            return <Post
+                key={post.id}
+                title={post.title}
+                author={post.author}
+                clicked={this.selectPostHandler.bind(this, post.id)}
+            />
+        });
 
         return (
             <section className="Posts">
@@ -48,8 +47,3 @@ class Posts extends Component {
 };
 
 export default Posts;
-
-/* 
-
-
-*/
