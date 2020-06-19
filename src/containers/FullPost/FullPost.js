@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import axiosBlogInstance from '../../axiosBlogInstance';
 
 import './FullPost.css';
 
@@ -8,15 +8,15 @@ class FullPost extends Component {
         loadedPost: null
     };
 
-    async componentDidUpdate(prevProps) {
-        if (this.props.id && (!this.state.loadedPost || prevProps.id !== this.props.id)) {
-            const response = await axios.get(`/posts/${this.props.id}`);
+    async componentDidMount() {
+        if (this.props.match.params.id && (!this.state.loadedPost)) {       
+            const response = await axiosBlogInstance.get(`/posts/${this.props.match.params.id}`);
             this.setState({ loadedPost: response.data });
         };
     };
 
     deletePostHandler = () => {
-        axios.delete(`/posts/${this.props.id}`)
+        axiosBlogInstance.delete(`/posts/${this.props.match.params.id}`)
             .then(response => console.log(response));
     };
 
