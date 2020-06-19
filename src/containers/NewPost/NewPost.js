@@ -10,6 +10,10 @@ class NewPost extends Component {
         author: 'Pato'
     };
 
+    componentDidMount(){
+        console.log(this.props)
+    };
+
     postDataHandler = async () => {
         const post = { ...this.state };
         const response = await axios.post('/posts/', post);

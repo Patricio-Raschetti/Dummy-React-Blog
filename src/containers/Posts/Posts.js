@@ -15,6 +15,7 @@ class Posts extends Component {
 
     async componentDidMount() {
         this._isMounted = true;
+        console.log(this.props)
         try {
             const response = this._isMounted ? await axios.get('/posts/') : null;
             const posts = response.data.slice(0, 4);
