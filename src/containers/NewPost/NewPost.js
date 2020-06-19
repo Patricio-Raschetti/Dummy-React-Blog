@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import axiosBlogInstance from '../../axiosBlogInstance';
 
 import './NewPost.css';
 
@@ -10,13 +10,10 @@ class NewPost extends Component {
         author: 'Pato'
     };
 
-    componentDidMount(){
-        console.log(this.props)
-    };
-
     postDataHandler = async () => {
         const post = { ...this.state };
-        const response = await axios.post('/posts/', post);
+        const response = await axiosBlogInstance.post('/posts/', post);
+        console.log(response);
     };
 
     render() {

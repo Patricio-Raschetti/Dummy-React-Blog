@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import axios from '../../axios';    // Using 'axios' identifier instead of 'axiosBlogInstance' or whatever more specific for not changing the code.
+import { Link } from 'react-router-dom';
+import axiosBlogInstance from '../../axiosBlogInstance';
 import './Posts.css';
 
 import Post from '../../components/Post/Post';
@@ -15,9 +16,8 @@ class Posts extends Component {
 
     async componentDidMount() {
         this._isMounted = true;
-        console.log(this.props)
         try {
-            const response = this._isMounted ? await axios.get('/posts/') : null;
+            const response = this._isMounted ? await axiosBlogInstance.get('/posts') : null;
             const posts = response.data.slice(0, 4);
             const updatedPosts = posts.map(post => ({ ...post, author: 'Pato' }));
             if (this._isMounted) this.setState({ posts: updatedPosts });
@@ -39,12 +39,15 @@ class Posts extends Component {
         // let posts = <p style={{ textAlign: "center" }}>Couldn't fetch the post. Try again later!</p>
         // if (!this.state.error) { posts = this.state.posts.map(...)} and remove the 'let' keyword.
         let posts = this.state.posts.map(post => {
-            return <Post
-                key={post.id}
-                title={post.title}
-                author={post.author}
-                clicked={this.selectPostHandler.bind(this, post.id)}
-            />
+            return (
+                <Link to={'/' + post.id} key={post.id}>
+                    <Post
+                        title={post.title}
+                        author={post.author}
+                        clicked={this.selectPostHandler.bind(this, post.id)}
+                    />
+                </Link>
+            );
         });
 
         return (
