@@ -8,11 +8,18 @@ class FullPost extends Component {
         loadedPost: null
     };
 
+    _isMounted;
+
     async componentDidMount() {
-        if (this.props.match.params.id && (!this.state.loadedPost)) {       
+        this._isMounted = true;
+        if (this.props.match.params.id && (!this.state.loadedPost)) {
             const response = await axiosBlogInstance.get(`/posts/${this.props.match.params.id}`);
-            this.setState({ loadedPost: response.data });
+            if (this._isMounted) this.setState({ loadedPost: response.data });
         };
+    };
+
+    componentWillUnmount() {
+        this._isMounted = false;
     };
 
     deletePostHandler = () => {
