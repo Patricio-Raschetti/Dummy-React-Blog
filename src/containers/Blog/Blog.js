@@ -22,7 +22,7 @@ class Blog extends Component {
                                     activeStyle={{
                                         color: '#fa923f'
                                     }}>
-                                    Home
+                                    Posts
                                 </NavLink>
                             </li>
                             <li>
