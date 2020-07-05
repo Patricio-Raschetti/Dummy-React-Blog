@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import App from './App.js';
 import axios from 'axios';
 
+// This should be inside its own Axios global config file.
 axios.defaults.baseURL = 'https://jsonplaceholder.typicode.com';
 axios.defaults.headers.common['Authorization'] = 'My Auth TOKEN';
 axios.defaults.headers.post['Content-Type'] = 'application/json';
