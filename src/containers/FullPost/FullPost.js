@@ -8,10 +8,25 @@ class FullPost extends Component {
         loadedPost: null
     };
 
-    async componentDidMount() {
-        if (this.props.match.params.id && (!this.state.loadedPost)) {       
+    _isMounted;
+
+    componentDidMount() {        // DidMount if we use the component as the first-level Route.
+        this.loadData();
+    };
+
+    componentDidUpdate() {      // DidUpdate if we use the component inside an active Route for reacting to changes;
+        this.loadData();
+    };
+
+    componentWillUnmount() {
+        this._isMounted = false;
+    };
+
+    async loadData() {
+        this._isMounted = true;
+        if (this.props.match.params.id && (!this.state.loadedPost || (this.state.loadedPost && this.state.loadedPost.id !== +this.props.match.params.id))) {
             const response = await axiosBlogInstance.get(`/posts/${this.props.match.params.id}`);
-            this.setState({ loadedPost: response.data });
+            if (this._isMounted) this.setState({ loadedPost: response.data });
         };
     };
 
@@ -21,7 +36,7 @@ class FullPost extends Component {
     };
 
     render() {
-        let post = <p style={{ textAlign: 'center' }}>Please select a Post!</p>;
+        let post = <p style={{ textAlign: 'center' }}>{this.props.match.params.id ? 'Loading...' : 'Please select a Post!'}</p>;
         if (this.state.loadedPost) {
             post = (
                 <div className="FullPost">

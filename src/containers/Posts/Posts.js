@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Route } from 'react-router-dom';
 import axiosBlogInstance from '../../axiosBlogInstance';
 import './Posts.css';
 
 import Post from '../../components/Post/Post';
+import FullPost from '../FullPost/FullPost';
 
 class Posts extends Component {
     state = {
         posts: [],
-        selectedPost: null,
+        // selectedPost: null,
         // error: false
     };
 
@@ -32,7 +33,9 @@ class Posts extends Component {
     }
 
     selectPostHandler = id => {
-        this.setState({ selectedPost: id });
+        this.props.history.push('/posts/' + id);
+        //this.props.history.push({ pathname: '/posts/' + id })
+        // this.setState({ selectedPost: id });
     };
 
     render() {
@@ -40,20 +43,24 @@ class Posts extends Component {
         // if (!this.state.error) { posts = this.state.posts.map(...)} and remove the 'let' keyword.
         let posts = this.state.posts.map(post => {
             return (
-                <Link to={'/' + post.id} key={post.id}>
-                    <Post
-                        title={post.title}
-                        author={post.author}
-                        clicked={this.selectPostHandler.bind(this, post.id)}
-                    />
-                </Link>
+                // <Link to={'/posts/' + post.id} key={post.id}>
+                <Post
+                    key={post.id}
+                    title={post.title}
+                    author={post.author}
+                    clicked={this.selectPostHandler.bind(this, post.id)}
+                />
+                // </Link>
             );
         });
 
         return (
-            <section className="Posts">
-                {posts}
-            </section>
+            <>
+                <section className="Posts">
+                    {posts}
+                </section>
+                <Route path={this.props.match.path + '/:id'} component={FullPost} />
+            </>
         );
     };
 };
